@@ -1,0 +1,6 @@
+<a href="{% url 'main_app:create-repository' %}">Create Repository</a>
+<ul>
+    {% for repository in user_repositories %}
+        <li>{{ repository }}</li>
+    {% endfor %}
+</ul>
