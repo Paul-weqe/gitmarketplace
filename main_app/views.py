@@ -1,8 +1,7 @@
-from django.shortcuts import get_object_or_404
-from django.views import View
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import FormView, TemplateView, ListView
 from main_app.forms import *
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ValidationError
 from main_app.services import users, repositories as repo_services
 from main_app.models import Repository
@@ -10,7 +9,7 @@ from main_app.models import Repository
 class RegisterUserView(FormView):
     template_name = 'register_user.html'
     form_class = RegisterUserForm
-    success_url = 'https://google.com'
+    success_url = '/user/login/'
 
     def form_valid(self, form):
         data = form.cleaned_data
@@ -74,9 +73,6 @@ class ViewSingleRepository(TemplateView):
         commit_id = self.request.GET.get('commit_id')
         path = self.request.GET.get('path')
 
-        # if 'commit_id' in self.kwargs:
-        #     commit_id = self.kwargs['commit_id']
-
         context['repository'] = get_object_or_404(Repository, id=repository_id)
         try:
             context['directories'] = repo_services.get_subtrees(repository_id, commit_id=commit_id, tree_path=path)
@@ -89,6 +85,7 @@ class ViewSingleRepository(TemplateView):
         else:
             context['tree_path'] = path
 
+        context['commit_id'] = commit_id
         context['repository_id'] = repository_id
         context['repository_commits'] = repo_services.get_all_repo_commits(repository_id)
 
@@ -99,6 +96,7 @@ class ViewBlob(TemplateView):
 
     def get_context_data(self, **kwargs):
         repository_id = self.kwargs['id']
+        commit_id = self.request.GET.get('commit_id')
         blob_path = self.request.GET.get('path')
         blob_name = self.request.GET.get('blob_name')
 
@@ -107,7 +105,13 @@ class ViewBlob(TemplateView):
         context['repository_id'] = repository_id
         context['blob_path'] = blob_path
         context['blob_name'] = blob_name
+        context['commit_id'] = commit_id
 
-        blob = repo_services.get_single_blob(repository_id, blob_name, tree_path=blob_path)
+        blob = repo_services.get_single_blob(repository_id, blob_name, tree_path=blob_path, commit_id=commit_id)
         context['blob_content'] = blob['blob'].data_stream.read()
         return context
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/user/login')

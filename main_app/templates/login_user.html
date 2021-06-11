@@ -1,6 +1,27 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.username }}<br>
-    {{ form.password }}<br>
-    <input type="submit" value="LOGIN">
-</form>
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <form class="git-form auth-form" method="post">
+                <h3>Login</h3>
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    {{ form.password }}
+                </div>
+                <input class="git-btn" type="submit" value="LOGIN">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

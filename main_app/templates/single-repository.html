@@ -1,19 +1,31 @@
-<h3><u>{{ repository.name }}</u></h3>
+{% extends 'base.html' %}
 
-{% if error is not None %}
-    <p>This repository does not have any files or any commits yet</p>
-{% else %}
-    {% for directory in directories %}
-<!--        dd <b><a href="">{{ directory.directory_name }}</a></b><br>-->
-        dd <b><a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}">{{ directory.directory_name }}</a></b><br>
-    {% endfor %}
-
-    {% for file in files %}
-        ff <i><a href="{% url 'main_app:view-blob' id=repository_id %}?path={{ tree_path }}&blob_name={{ file.blob_name }}">{{ file.blob_name }}</a></i><br>
-    {% endfor %}
-
-    <h5>Commits</h5>
-    {% for repo_commit in repository_commits %}
-        <a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}&commit_id={{ repo_commit.hexsha }}">{{ repo_commit.hexsha }}</a><br>
-    {% endfor %}
-{% endif %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3><u>{{ repository.name }}</u></h3>
+            </div>
+        </div>
+        <div class="row repository-content-listing">
+            {% if error is not None %}
+                <p>This repository does not have any files or any commits yet</p>
+            {% else %}
+                <div class="col-lg-8">
+                    <h5>Files</h5>
+                    <ul class="list-group">
+                        {% for directory in directories %}
+                            <li class="list-group-item list-group-item-primary"><a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a></li>
+                        {% endfor %}
+                        {% for file in files %}
+                            <li class="list-group-item list-group-item-secondary"><a href="{% url 'main_app:view-blob' id=repository_id %}?path={{ tree_path }}&blob_name={{ file.blob_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ file.blob_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Commits</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

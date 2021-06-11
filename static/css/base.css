@@ -1,0 +1,36 @@
+body {
+    --primary-color: #4D844D;
+    --secondary-color: #FEFEFE;
+}
+
+.git-form {
+    padding: 15px 10px 15px 10px;
+}
+
+.git-form input {
+    border-radius: 0;
+    border-width: 1px;
+    padding: 3px 4px 3px 4px;
+    width: 100%;
+}
+
+.git-btn {
+    border-radius: 0;
+    background-color: var(--primary-color);
+    color: white;
+    border-width: 0;
+    height: 35px;
+    padding: 8px 20px 8px 20px;
+}
+
+.auth-form {
+    margin-top: 100px;
+}
+
+.repository-listing {
+    padding-top: 30px;
+}
+
+.repository-content-listing a {
+
+}
