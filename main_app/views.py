@@ -3,8 +3,11 @@ from django.views.generic import FormView, TemplateView, ListView
 from main_app.forms import *
 from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ValidationError
+from django.utils.timezone import make_aware
 from main_app.services import users, repositories as repo_services
 from main_app.models import Repository
+from datetime import datetime
+
 
 class RegisterUserView(FormView):
     template_name = 'register_user.html'
@@ -22,6 +25,7 @@ class RegisterUserView(FormView):
         else:
             raise ValidationError("The password must match the confirm password")
 
+
 class LoginView(FormView):
     template_name = 'login_user.html'
     form_class = LoginForm
@@ -36,6 +40,7 @@ class LoginView(FormView):
         else:
             raise ValidationError("Username and passwords do not match")
 
+
 class Dashboard(TemplateView):
     template_name = 'dashboard.html'
 
@@ -44,6 +49,7 @@ class Dashboard(TemplateView):
         context = super().get_context_data(**kwargs)
         context['user_repositories'] = user_repositories
         return context
+
 
 class CreateRepository(FormView):
     template_name = 'create_repository.html'
@@ -87,9 +93,12 @@ class ViewSingleRepository(TemplateView):
 
         context['commit_id'] = commit_id
         context['repository_id'] = repository_id
-        context['repository_commits'] = repo_services.get_all_repo_commits(repository_id)
-
+        repository_commits = repo_services.get_all_repo_commits(repository_id)
+        context['repository_commits'] = repository_commits
+        for commit in repository_commits:
+            make_aware(datetime.fromtimestamp(commit.committed_date))
         return context
+
 
 class ViewBlob(TemplateView):
     template_name = 'view_blob.html'
@@ -108,7 +117,9 @@ class ViewBlob(TemplateView):
         context['commit_id'] = commit_id
 
         blob = repo_services.get_single_blob(repository_id, blob_name, tree_path=blob_path, commit_id=commit_id)
-        context['blob_content'] = blob['blob'].data_stream.read()
+        blob_content = blob['blob'].data_stream.read()
+        context['blob_content'] = blob_content.decode('utf-8')\
+            # .encode("windows-1252").decode('utf-8')
         return context
 
 

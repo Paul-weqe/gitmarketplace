@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% load paul_tags %}
-
 {% block body %}
     <div class="container">
         <div class="row">
@@ -19,7 +17,7 @@
                         {% for directory in directories %}
                             <li class="list-group-item list-group-item-primary"><a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a></li>
                         {% endfor %}
-                        {% for file in iles %}
+                        {% for file in files %}
                             <li class="list-group-item list-group-item-secondary"><a href="{% url 'main_app:view-blob' id=repository_id %}?path={{ tree_path }}&blob_name={{ file.blob_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ file.blob_name }}</a></li>
                         {% endfor %}
                     </ul>
@@ -31,7 +29,7 @@
                             <a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}&commit_id={{ repo_commit.hexsha }}" class="list-group-item list-group-item-action" aria-current="true">
                                 <div class="d-flex w-100 justify-content-between">
                                   <span class="mb-1" style="color: blue;">{{ repo_commit.hexsha|truncatechars:20 }}</span>
-                                  <small>{{ repo_commit.committed_date|timestamp_from_filter|timesince }} ago</small>
+                                  <small>3 days ago</small>
                                 </div>
                                 <p class="mb-1">{{ repo_commit.message }}</p>
                             </a>

@@ -1,6 +1,23 @@
-<h2><u>{{ repository.name }}</u></h2>
+{% extends 'base.html' %}
 
-<i>{{ blob_path }}/{{ blob_name }}</i>
-
-<br>
-{{ blob_content }}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3><u><a href="{% url 'main_app:view-repository' id=repository_id %}">{{ repository.name }}</a></u></h3> {% if commit_id %}{{ commit_id }}{% endif %}
+            </div>
+        </div>
+        <div class="row repository-content-listing">
+            <div class="col-lg-8">
+                <h5>{{ blob_path }}/{{ blob_name }}</h5>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    {{ blob_content | linebreaksbr }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
