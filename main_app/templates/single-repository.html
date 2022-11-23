@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% load paul_tags %}
 
 {% block body %}
@@ -17,9 +18,12 @@
                     <h5>{% if tree_path %}{{ tree_path }}{% else %}/{% endif %}</h5>
                     <ul class="list-group">
                         {% for directory in directories %}
-                            <li class="list-group-item list-group-item-primary"><a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a></li>
+                            <li class="list-group-item list-group-item-primary">
+                                <img src="{% static 'icons/file-directory-fill.svg' %}" alt="directory svg" icon-info="true">
+                                <a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a>
+                            </li>
                         {% endfor %}
-                        {% for file in iles %}
+                        {% for file in files %}
                             <li class="list-group-item list-group-item-secondary"><a href="{% url 'main_app:view-blob' id=repository_id %}?path={{ tree_path }}&blob_name={{ file.blob_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ file.blob_name }}</a></li>
                         {% endfor %}
                     </ul>

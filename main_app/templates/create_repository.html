@@ -1,5 +1,21 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.name }}<br>
-    <input type="submit" value="CREATE REPOSITORY">
-</form>
+{% extends 'base.html'  %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+
+            <form method="post" class="git-form">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.name }}
+                </div>
+
+                <input type="submit" class="git-btn" value="CREATE REPOSITORY">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
