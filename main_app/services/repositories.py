@@ -36,10 +36,17 @@ def get_single_blob(repository_id: int, blob_name: str, tree_path: str = None, c
         if blob['blob_name'] == blob_name:
             return blob
 
+
 def get_all_repo_commits(repository_id: int):
     repository_object = get_object_or_404(Repository, id=repository_id)
     username = repository_object.user.username
     path = f"/git/{username}/{repository_object.name}/"
     base = GitBase(path)
-    return base.get_all_commits()
+    response = None
+    try:
+        response = base.get_all_commits()
+    except ValueError as e:
+        if str(e) == "Reference at 'refs/heads/master' does not exist":
+            response = []
+    return response
 

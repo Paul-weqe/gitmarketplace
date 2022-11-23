@@ -20,7 +20,7 @@
                         {% for directory in directories %}
                             <li class="list-group-item list-group-item-primary">
                                 <img src="{% static 'icons/file-directory-fill.svg' %}" alt="directory svg" icon-info="true">
-                                <a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a>
+                                <i class="bi bi-file-earmark"></i><a href="{% url 'main_app:view-repository' id=repository_id %}?path={{ tree_path }}/{{ directory.directory_name }}{% if commit_id %}&commit_id={{ commit_id }}{% endif %}">{{ directory.directory_name }}</a>
                             </li>
                         {% endfor %}
                         {% for file in files %}

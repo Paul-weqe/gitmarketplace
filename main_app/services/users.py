@@ -7,6 +7,7 @@ import os
 # models
 from main_app.models import Repository
 
+
 def register_user(
         username: str, email: str, password: str, first_name: str = None, last_name: str = None
     ) -> User:
@@ -17,7 +18,8 @@ def register_user(
     user.save()
 
     # add the user's directory
-    os.mkdir(f"/git/{username}")
+    if not os.path.exists(f"/git/{username}"):
+        os.mkdir(f"/git/{username}")
     return user
 
 
