@@ -7,7 +7,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3><u><a href="{% url 'main_app:view-repository' id=repository_id %}">{{ repository.name }}</a></u></h3> {% if commit_id %}{{ commit_id }}{% endif %}
+                <h3><u><a href="{% url 'main_app:view-repository' id=repository_id %}">{{ repository.name }}</a></u></h3> <a href="">add file</a></h5> <br>
+                {% if commit_id %}{{ commit_id }}{% endif %}
             </div>
         </div>
         <div class="row repository-content-listing">
@@ -15,7 +16,7 @@
                 <p>This repository does not have any files or any commits yet</p>
             {% else %}
                 <div class="col-lg-8">
-                    <h5>{% if tree_path %}{{ tree_path }}{% else %}/{% endif %}</h5>
+                    <h5>{% if tree_path %}{{ tree_path }}{% else %}/{% endif %}
                     <ul class="list-group">
                         {% for directory in directories %}
                             <li class="list-group-item list-group-item-primary">

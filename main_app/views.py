@@ -123,6 +123,14 @@ class ViewBlob(TemplateView):
         return context
 
 
+class CreateFile(FormView):
+    form_class = CreateRepositoryFile
+    template_name = 'create-file.html'
+    success_url = ''
+
+    def form_valid(self, form):
+        pass
+
 def logout_view(request):
     logout(request)
     return redirect('/user/login')

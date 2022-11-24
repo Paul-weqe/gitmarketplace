@@ -21,6 +21,7 @@ urlpatterns = [
     path('repositories/<int:id>/', views.ViewSingleRepository.as_view(), name='view-repository'),
     # path('repositories/<int:id>/<str:commit_id>/<str:tree_id>', views.ViewSingleRepository.as_view(), name='view-single-repo-with-commit'),
 
-    # view files and directories
+    # CRUD on files and directories
+    # path('repositories/<int:id>/add-file/'),
     path('repositories/<int:id>/blob/', views.ViewBlob.as_view(), name='view-blob')
 ]

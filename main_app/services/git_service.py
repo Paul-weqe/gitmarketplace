@@ -17,6 +17,10 @@ class GitBase:
     def get_tree(self, commit_id = None):
         return self.get_commit(commit_id).tree
 
+    """
+    Here we get all blobs in a specific path in a repository. 
+    A blob is basically a regular binary file. 
+    """
     def get_blobs(self, path: str = None, commit_id: str = None):
         commit = self.get_commit(commit_id)
         tree = commit.tree
@@ -41,6 +45,10 @@ class GitBase:
             blobs.append({'blob': blob, 'blob_name': blob.name})
         return blobs
 
+    """
+    A subtree is a directory inside the repository. 
+    This gives us all the directories that are inside the repository's specific path 
+    """
     def get_subtrees(self, path: str = None, commit_id: str=None) -> list:
         commit = self.get_commit(commit_id)
         tree = commit.tree
@@ -63,6 +71,9 @@ class GitBase:
         for subtree in tree.trees:
             subtrees.append({'subtree': subtree, 'directory_name': subtree.name})
         return subtrees
+
+    def add_file_to_repo(self, filename: str, path: str = "/", file_content: str=""):
+        pass
 
     def get_all_commits(self):
         return list(self.repo.iter_commits())
