@@ -8,9 +8,19 @@ class RegisterUserForm(forms.Form):
     first_name = forms.CharField(required=False, widget=forms.TextInput())
     last_name = forms.CharField(required=False, widget=forms.TextInput())
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
 
+
 class CreateRepository(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Repository name'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Repository name'
+    }))
+
+
+class CreateRepositoryFile(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'name': 'Name'
+    }))
